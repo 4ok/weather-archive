@@ -1,0 +1,22 @@
+.filters,
+.filters .period {
+	display: flex;
+}
+
+.filters select {
+	display: block;
+
+	margin-right: 1rem /* 16/16 */;
+}
+
+@media (max-width: 30rem /* 480/16 */) {
+	.filters,
+	.filters .period {
+		display: block;
+	}
+
+	.filters select {
+		width: 100%;
+		margin: 1rem /* 16/16 */ 0 0;
+	}
+}

@@ -1,0 +1,11 @@
+:root {
+	--content-min-width: 20rem /* 320/16 */;
+	--content-max-width: 100rem /* 1600/16 */;
+
+	--content-padding-x: 1.5rem /* 24/16 */;
+	--content-padding-y: 1.5rem /* 24/16 */;
+
+	--color-black: #001529;
+	--color-blue: #1890ff;
+	--color-gray: rgba(255, 255, 255, .65);
+}

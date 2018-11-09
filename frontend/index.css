@@ -1,0 +1,13 @@
+/* Common */
+@import 'css/vars.css';
+@import 'css/common.css';
+
+/* Layout blocks */
+@import 'blocks/layout/layout.css';
+@import 'blocks/header/header.css';
+@import 'blocks/menu/menu.css';
+@import 'blocks/main/main.css';
+@import 'blocks/footer/footer.css';
+
+/* Pages */
+@import 'pages/weather/weather/weather.css';

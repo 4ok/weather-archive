@@ -1,0 +1,11 @@
+# Third party
+node_modules
+
+# Configs
+!.eslintrc.js
+
+# Data
+backend/data
+
+# Generated files
+package-lock.json

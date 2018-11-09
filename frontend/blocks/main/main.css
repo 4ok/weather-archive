@@ -1,0 +1,42 @@
+.main {
+
+	position: relative;
+	color: #333;
+}
+
+.main__header {
+	font-size: 1.75rem /* 28/16 */;
+	font-weight: normal;
+
+	margin-top: 0;
+}
+
+.main__loading::before {
+	position: absolute;
+	top: 5rem /* 80/16 */;
+	top: 50%;
+	left: 50%;
+
+	display: block;
+
+	width: 4.5rem /* 72/16 */;
+	height: 4.5rem /* 72/16 */;
+	margin: 0 auto;
+
+	content: '';
+
+	background: url('../../images/loading.svg');
+	transform: translate(-50%, -50%);
+}
+
+@media (max-width: 48rem /* 768/16 */) {
+	.main__header {
+		margin-top: var(--content-padding-y);
+	}
+}
+
+@media (max-width: 30rem /* 480/16 */) {
+	.main__loading::before {
+		top: 70%;
+	}
+}
