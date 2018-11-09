@@ -29,7 +29,7 @@
 
 ### Requirements
 
-- Last modern browser (Chrome, Firefox)
+- Last modern browser (Chrome, Firefox, Safari)
 - Node >= 6
 
 ### Start
