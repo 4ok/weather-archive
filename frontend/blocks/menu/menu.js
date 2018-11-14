@@ -33,15 +33,15 @@ export function highlightItem(item) {
 	state.selectedItem = item
 }
 
-function getItemElem({ item }) {
+function getItemElem({ text, selected, params }) {
 	const elem = document.createElement('a')
 
 	elem.className = 'menu__item'
-	elem.textContent = item.text
-	elem.dataset.params = JSON.stringify(item.params)
+	elem.textContent = text
+	elem.dataset.params = JSON.stringify(params)
 	elem.href = '#'
 
-	if (item.selected) {
+	if (selected) {
 		elem.classList.add(classNames.selectedItem)
 		state.selectedItem = elem
 	}
@@ -54,8 +54,8 @@ function getMenu({ items }) {
 
 	menu.className = classNames.menu
 
-	items.forEach((item) => {
-		const elem = getItemElem({ item })
+	items.forEach((item, index) => {
+		const elem = getItemElem(item)
 
 		menu.append(elem)
 	})

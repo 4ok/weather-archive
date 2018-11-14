@@ -1,27 +1,21 @@
 import { create as createMenu } from '../../../blocks/menu/menu.js'
 import getStore from '../../../helpers/getStore.js'
+import routes from '../../../routes.js'
 import { items } from './menu-data.js'
 
+const { dataType: defaultDataType } = routes.weather.defaultParams
+
 function getItems() {
-	const { dataType } = getStore()
-	let result
+	const { dataType = defaultDataType } = getStore()
 
-	if (dataType) {
-		result = items.map((item) => {
+	return items.map((item, index) => {
 
-			if (item.params.dataType === dataType) {
-				item.selected = true
-			}
+		if (item.params.dataType === dataType) {
+			item.selected = true
+		}
 
-			return item
-		})
-	} else {
-		result = [ ...items ]
-
-		result[0].selected = true
-	}
-
-	return result
+		return item
+	})
 }
 
 function render({ onChange }) {
