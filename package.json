@@ -10,7 +10,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-json": "^1.2.1",
     "http-serve": "^1.0.1",
-    "husky": "^1.1.0",
+    "husky": "^1.1.4",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-order": "^1.0.0"
