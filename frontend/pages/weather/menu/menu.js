@@ -8,7 +8,7 @@ const { dataType: defaultDataType } = routes.weather.defaultParams
 function getItems() {
 	const { dataType = defaultDataType } = getStore()
 
-	return items.map((item, index) => {
+	return items.map((item) => {
 
 		if (item.params.dataType === dataType) {
 			item.selected = true

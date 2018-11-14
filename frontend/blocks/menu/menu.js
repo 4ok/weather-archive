@@ -54,7 +54,7 @@ function getMenu({ items }) {
 
 	menu.className = classNames.menu
 
-	items.forEach((item, index) => {
+	items.forEach((item) => {
 		const elem = getItemElem(item)
 
 		menu.append(elem)
