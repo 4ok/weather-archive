@@ -58,8 +58,8 @@ function onChange(e, data) {
 		dataType,
 		season,
 		group,
-		yearFrom: Number(yearFrom),
-		yearTo: Number(yearTo),
+		yearFrom: yearFrom ? Number(yearFrom) : null,
+		yearTo: yearTo ? Number(yearTo) : null,
 	})
 
 	renderChart()

@@ -2,7 +2,11 @@ export default {
 
 	// Weather
 	weather: {
-		defaultParams: { dataType: 'temperature' },
+		defaultParams: {
+			dataType: 'temperature',
+			yearFrom: 'min',
+			yearTo: 'max',
+		},
 
 		getUrl({
 			dataType,
@@ -11,9 +15,14 @@ export default {
 			season,
 			group,
 		}) {
-			const result = `${ dataType }/${ yearFrom }-${ yearTo }/${ season }/${ group }`
+			const def = this.defaultParams
 
-			return `${ result }`
+			return [
+				dataType || def.dataType,
+				`${ yearFrom || def.yearFrom }-${ yearTo || def.yearTo }`,
+				season,
+				group,
+			].join('/')
 		},
 
 		parseUrl({ params }) {
