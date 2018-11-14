@@ -37,6 +37,10 @@ const dbPromise = dbInit({
 	stores: dbStores,
 })
 
+function isEmpty(arr) {
+	return !arr || arr.length === 0
+}
+
 function getActionWorkerResult(name, data) {
 	return getWorkerResult(WORKERS_PATH + name, data)
 }
@@ -200,10 +204,8 @@ async function getResult({ apiMethod, filter, store }) {
 		logError(e)
 	}
 
-	const emptyList = () => !list || list.length === 0
-
-	if (emptyList()) {
-		list = getFetchResultAndSaveToStore({
+	if (isEmpty(list)) {
+		list = await getFetchResultAndSaveToStore({
 			apiMethod,
 			filter,
 			db,
@@ -211,7 +213,7 @@ async function getResult({ apiMethod, filter, store }) {
 		})
 	}
 
-	if (emptyList()) {
+	if (isEmpty(list)) {
 		throw new Error('Data error')
 	}
 

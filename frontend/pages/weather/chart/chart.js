@@ -8,10 +8,11 @@ import chartData from './chart-data.js'
 import config from '../../../configs/common.js'
 import weatherConfig from '../../../configs/weather.js'
 import getWorkerResult from '../../../helpers/getWorkerResult.js'
+import userError from '../../../helpers/userError.js'
 
 const STEP_X = 16
-
 const WORKERS_PATH = 'pages/weather/chart/workers/'
+const USER_ERROR = 'Chart won\'t be displayed, please try reloading the page'
 
 const { excludesGroups } = weatherConfig
 const { dataType: defaultDataType } = routes.weather.defaultParams
@@ -134,7 +135,16 @@ export async function render({ dataPromise = getData() } = {}) {
 	clearChart()
 	loading()
 
-	let data = await dataPromise
+	let data
+
+	try {
+		data = await dataPromise
+	} catch (e) {
+		userError(`${ e.message }. ${ USER_ERROR }`)
+		loading(false)
+
+		return
+	}
 
 	const { width, height } = getChartSize()
 	const {
