@@ -4,7 +4,7 @@ export default {
 	years: {
 		method: 'get',
 		version: '1.0',
-		path: `${ PATH_PREFIX }years1`,
+		path: `${ PATH_PREFIX }years`,
 	},
 	temperature: {
 		method: 'get',

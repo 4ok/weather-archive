@@ -174,7 +174,7 @@ async function getResult({ apiMethod, filter, store }) {
 		const dbList = await dbGetAll({
 			db,
 			store,
-			query: getQuery({ filter }),
+			query: filter ? getQuery({ filter }) : null,
 		})
 
 		const [ dbYears, parsedDbList ] = await Promise.all([
@@ -184,33 +184,35 @@ async function getResult({ apiMethod, filter, store }) {
 
 		list = parsedDbList
 
-		const absenceDbItemsFilter = getAbsenceDbItemsFilter({
-			filter,
-			dbYears,
-		})
-
-		if (absenceDbItemsFilter) {
-			const additionalList = await getFetchResultAndSaveToStore({
-				apiMethod,
-				filter: absenceDbItemsFilter,
-				db,
-				store,
+		if (filter) {
+			const absenceDbItemsFilter = getAbsenceDbItemsFilter({
+				filter,
 				dbYears,
 			})
 
-			Object.assign(list, additionalList)
+			if (absenceDbItemsFilter) {
+				const additionalList = await getFetchResultAndSaveToStore({
+					apiMethod,
+					filter: absenceDbItemsFilter,
+					db,
+					store,
+					dbYears,
+				})
+
+				Object.assign(list, additionalList)
+			}
+		}
+
+		if (isEmpty(list)) {
+			list = await getFetchResultAndSaveToStore({
+				apiMethod,
+				filter,
+				db,
+				store,
+			})
 		}
 	} catch (e) {
 		logError(e)
-	}
-
-	if (isEmpty(list)) {
-		list = await getFetchResultAndSaveToStore({
-			apiMethod,
-			filter,
-			db,
-			store,
-		})
 	}
 
 	if (isEmpty(list)) {
@@ -264,13 +266,20 @@ export async function getYears() {
 	return years
 }
 
+function getFilter({ yearFrom, yearTo }) {
+	return (yearFrom && yearTo) ? {
+		yearFrom,
+		yearTo,
+	} : null
+}
+
 export function getTemperature({ yearFrom, yearTo }) {
 	return getResult({
 		apiMethod: 'temperature',
-		filter: {
+		filter: getFilter({
 			yearFrom,
 			yearTo,
-		},
+		}),
 		store: 'temperature',
 	})
 }
@@ -278,10 +287,10 @@ export function getTemperature({ yearFrom, yearTo }) {
 export function getPrecipitation({ yearFrom, yearTo }) {
 	return getResult({
 		apiMethod: 'precipitation',
-		filter: {
+		filter: getFilter({
 			yearFrom,
 			yearTo,
-		},
+		}),
 		store: 'precipitation',
 	})
 }

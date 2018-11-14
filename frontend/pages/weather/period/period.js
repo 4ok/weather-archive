@@ -29,17 +29,14 @@ async function render({ container, yearsPromise, onChange }) {
 		return
 	}
 
-	const {
-		yearFrom = years[years.length - 1],
-		yearTo = years[0],
-	} = getStore()
+	const { yearFrom, yearTo } = getStore()
 
 	const period = cretaePeriod({
 		names: Object.values(names),
 		values: years,
 		selectedValues: {
-			[names.from]: yearFrom,
-			[names.to]: yearTo,
+			[names.from]: yearFrom || years[years.length - 1],
+			[names.to]: yearTo || years[0],
 		},
 		onChange,
 	})
