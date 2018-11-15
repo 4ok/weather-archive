@@ -14,6 +14,8 @@ const { excludesGroups } = weatherConfig
 
 const TITLE = 'Weather service archive'
 
+const state = {}
+
 function correctGroupsSelect({ dataType }) {
 	const select = document.querySelector('.weather-groups')
 	const options = [ ...select.options ]
@@ -72,13 +74,24 @@ function renderHeader() {
 		.prepend(title)
 }
 
+function onResize() {
+	const currentBodyWidth = document.body.clientWidth
+
+	if (state.bodyWidth !== currentBodyWidth) {
+		state.bodyWidth = currentBodyWidth
+
+		renderChart()
+	}
+}
+
 export function render() {
 	document.title = TITLE
+	state.bodyWidth = document.body.clientWidth
+
+	window.addEventListener('resize', debounce(onResize, 400))
 
 	renderHeader()
 	renderMenu({ onChange })
 	renderFilters({ onChange })
 	renderChart()
-
-	window.addEventListener('resize', debounce(renderChart, 400))
 }
