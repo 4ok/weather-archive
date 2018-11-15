@@ -10,19 +10,11 @@ const names = {
 	to: 'yearTo',
 }
 
-function onDomReady({ container, yearsPromise, onChange }) {
-	render({
-		container,
-		yearsPromise,
-		onChange,
-	})
-}
-
-async function render({ container, yearsPromise, onChange }) {
+export async function render({ container, onChange }) {
 	let years
 
 	try {
-		years = await yearsPromise
+		years = await getYears()
 	} catch (e) {
 		userError(`${ e.message }. ${ USER_ERROR }`)
 
@@ -42,14 +34,4 @@ async function render({ container, yearsPromise, onChange }) {
 	})
 
 	container.append(period)
-}
-
-export function init({ container, onChange }) {
-	const yearsPromise = getYears()
-
-	document.addEventListener('DOMContentLoaded', onDomReady.bind(null, {
-		container,
-		yearsPromise,
-		onChange,
-	}))
 }

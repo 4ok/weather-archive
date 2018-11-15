@@ -7,7 +7,9 @@ const seasonsMonths = {
 
 onmessage = function filterData({ data: { data, season } }) {
 	const seasonMonths = seasonsMonths[season]
-	const result = data.filter(item => seasonMonths.includes(item.m))
+	const result = (seasonMonths)
+		? data.filter(item => seasonMonths.includes(item.m))
+		: data
 
 	postMessage(result)
 }

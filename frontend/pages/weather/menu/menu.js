@@ -18,7 +18,7 @@ function getItems() {
 	})
 }
 
-function render({ onChange }) {
+export function render({ onChange }) {
 	const menu = createMenu({
 		items: getItems(),
 		onChange,
@@ -27,15 +27,4 @@ function render({ onChange }) {
 	document
 		.querySelector('.aside')
 		.append(menu)
-}
-
-function onDomReady({ onChange }) {
-	render({ onChange })
-}
-
-export function init({ onChange }) {
-	document.addEventListener(
-		'DOMContentLoaded',
-		onDomReady.bind(this, { onChange })
-	)
 }

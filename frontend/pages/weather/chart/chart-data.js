@@ -1,23 +1,17 @@
-import getStore from '../../../helpers/getStore.js'
-
 import {
 	getTemperature,
 	getPrecipitation,
 } from '../../../actions/weather/weather.js'
 
 export default {
-	get temperature() {
-		const { yearFrom, yearTo } = getStore()
-
+	temperature({ yearFrom, yearTo }) {
 		return getTemperature({
 			yearFrom,
 			yearTo,
 		})
 	},
 
-	get precipitation() {
-		const { yearFrom, yearTo } = getStore()
-
+	precipitation({ yearFrom, yearTo }) {
 		return getPrecipitation({
 			yearFrom,
 			yearTo,

@@ -1,10 +1,6 @@
-import { init as initMenu } from '../menu/menu.js'
-import { init as initFilters } from '../filters/filters.js'
-
-import {
-	init as initChart,
-	render as renderChart,
-} from '../chart/chart.js'
+import { render as renderMenu } from '../menu/menu.js'
+import { render as renderFilters } from '../filters/filters.js'
+import { render as renderChart } from '../chart/chart.js'
 
 import { getData as getFormData } from '../../../blocks/form/form.js'
 import { getParams as getMenuParams } from '../../../blocks/menu/menu.js'
@@ -76,17 +72,13 @@ function renderHeader() {
 		.prepend(title)
 }
 
-function onDomReady() {
-	renderHeader()
-
+export function render() {
 	document.title = TITLE
-}
 
-export function init() {
-	document.addEventListener('DOMContentLoaded', onDomReady)
+	renderHeader()
+	renderMenu({ onChange })
+	renderFilters({ onChange })
+	renderChart()
+
 	window.addEventListener('resize', debounce(renderChart, 400))
-
-	initMenu({ onChange })
-	initFilters({ onChange })
-	initChart()
 }

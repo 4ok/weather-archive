@@ -24,7 +24,7 @@ function getOptions() {
 	return result
 }
 
-function render({ container, onChange }) {
+export function render({ container, onChange }) {
 	const select = createSelect({
 		name: 'season',
 		options: getOptions(),
@@ -32,18 +32,4 @@ function render({ container, onChange }) {
 	})
 
 	container.append(select)
-}
-
-function onDomReady({ container, onChange }) {
-	render({
-		container,
-		onChange,
-	})
-}
-
-export function init({ container, onChange }) {
-	document.addEventListener('DOMContentLoaded', onDomReady.bind(null, {
-		container,
-		onChange,
-	}))
 }

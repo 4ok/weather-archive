@@ -1,6 +1,6 @@
-import { init as initPeriod } from '../period/period.js'
-import { init as initSeason } from '../season/season.js'
-import { init as initGroups } from '../groups/groups.js'
+import { render as renderPeriod } from '../period/period.js'
+import { render as renderSeason } from '../season/season.js'
+import { render as renderGroups } from '../groups/groups.js'
 
 function getRootElem() {
 	const form = document.createElement('form')
@@ -11,13 +11,7 @@ function getRootElem() {
 	return form
 }
 
-function onDomReady({ rootElem }) {
-	document
-		.querySelector('.main')
-		.append(rootElem)
-}
-
-export function init({ onChange }) {
+export function render({ onChange }) {
 	const rootElem = getRootElem()
 
 	const periodContainer = document.createElement('div')
@@ -28,23 +22,22 @@ export function init({ onChange }) {
 	rootElem.append(seasonContainer)
 	rootElem.append(groupsContainer)
 
-	initPeriod({
+	renderPeriod({
 		container: periodContainer,
 		onChange,
 	})
 
-	initSeason({
+	renderSeason({
 		container: seasonContainer,
 		onChange,
 	})
 
-	initGroups({
+	renderGroups({
 		container: groupsContainer,
 		onChange,
 	})
 
-	document.addEventListener(
-		'DOMContentLoaded',
-		onDomReady.bind(null, { rootElem })
-	)
+	document
+		.querySelector('.main')
+		.append(rootElem)
 }

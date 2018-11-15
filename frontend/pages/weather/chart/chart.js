@@ -12,7 +12,7 @@ import userError from '../../../helpers/userError.js'
 
 const STEP_X = 16
 const WORKERS_PATH = 'pages/weather/chart/workers/'
-const USER_ERROR = 'Chart won\'t be displayed, please try reloading the page'
+const USER_ERROR = 'Chart won\'t be displayed'
 
 const { excludesGroups } = weatherConfig
 const { dataType: defaultDataType } = routes.weather.defaultParams
@@ -45,12 +45,16 @@ function getChartWorkerResult(name, data) {
 
 function getData() {
 	const { dataType = defaultDataType } = getStore()
+	const { yearFrom, yearTo } = getStore()
 
-	return chartData[dataType]
-}
+	if (!chartData[dataType]) {
+		throw new Error(`Unexpected data type "${ dataType }"`)
+	}
 
-function onDomReady({ dataPromise }) {
-	render({ dataPromise })
+	return chartData[dataType]({
+		yearFrom,
+		yearTo,
+	})
 }
 
 function getChartSize() {
@@ -110,7 +114,7 @@ function getSummaryItems({ data, unitsName }) {
 function filterGroups({ dataType, group, groupsItems }) {
 	const excludes = excludesGroups[dataType]
 
-	if (group && group !== 'all-groups') {
+	if (group && groupsItems[group]) {
 		return { [group]: groupsItems[group] }
 	}
 
@@ -131,14 +135,14 @@ function clearChart() {
 	}
 }
 
-export async function render({ dataPromise = getData() } = {}) {
+export async function render() {
 	clearChart()
 	loading()
 
 	let data
 
 	try {
-		data = await dataPromise
+		data = await getData()
 	} catch (e) {
 		userError(`${ e.message }. ${ USER_ERROR }`)
 		loading(false)
@@ -153,19 +157,27 @@ export async function render({ dataPromise = getData() } = {}) {
 	} = getStore()
 
 	const { season } = getStore()
+	let groupsValues
 
-	if (season && season !== 'all-seasons') {
-		data = await getChartWorkerResult('filterData', {
+	try {
+		if (season && season !== 'all-seasons') {
+			data = await getChartWorkerResult('filterData', {
+				data,
+				season,
+			})
+		}
+
+		groupsValues = await getChartWorkerResult('getGroupsValues', {
 			data,
-			season,
+			width,
+			stepX: STEP_X,
 		})
-	}
+	} catch (e) {
+		userError(USER_ERROR) // todo
+		loading(false)
 
-	let groupsValues = await getChartWorkerResult('getGroupsValues', {
-		data,
-		width,
-		stepX: STEP_X,
-	})
+		return
+	}
 
 	groupsValues = filterGroups({
 		dataType,
@@ -197,13 +209,4 @@ export async function render({ dataPromise = getData() } = {}) {
 	const main = document.querySelector('.main')
 
 	main.append(chart)
-}
-
-export function init() {
-	const dataPromise = getData()
-
-	document.addEventListener(
-		'DOMContentLoaded',
-		onDomReady.bind(null, { dataPromise })
-	)
 }
